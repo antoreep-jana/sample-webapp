@@ -15,11 +15,8 @@ import tensorflow as tf
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
-config = ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.5
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
 # Keras
+from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.applications.resnet50 import preprocess_input
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
@@ -33,10 +30,10 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 # Model saved with Keras model.save()
-MODEL_PATH ='inceptionv3.h5'
+MODEL_PATH ='model_mobilenetv2.h5'
 
 # Load your trained model
-model = load_model(MODEL_PATH)
+model = MobileNetV2(weights = MODEL_PATH)
 
 
 
