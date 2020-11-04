@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created by Divyansh Mathur
-"""
 
 from __future__ import division, print_function
 # coding=utf-8
@@ -38,10 +35,11 @@ model = MobileNetV2(weights = MODEL_PATH)
 
 
 
-def model_predict(img_path, model):
-    print(img_path)
-    img = image.load_img(img_path, target_size=(224, 224))
-
+#def model_predict(img_path, model):
+def model_predict(img, model):
+    #print(img_path)
+    #img = image.load_img(img_path, target_size=(224, 224))
+    img = img.resize((224,224))
     # Preprocessing the image
     x = image.img_to_array(img)
     # x = np.true_divide(x, 255)
@@ -80,16 +78,18 @@ def index():
 def upload():
     if request.method == 'POST':
         # Get the file from post request
-        f = request.files['file']
-
+        #f = request.files['file']
+        img = base64_to_pil(request.json)
+        
         # Save the file to ./uploads
-        basepath = os.path.dirname(__file__)
-        file_path = os.path.join(
-            basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
-
+        #basepath = os.path.dirname(__file__)
+        #file_path = os.path.join(
+        #    basepath, 'uploads', secure_filename(f.filename))
+        #f.save(file_path)
+        
         # Make prediction
-        preds = model_predict(file_path, model)
+        #preds = model_predict(file_path, model)
+        preds= model_predict(img, model)
         result=preds
         return result
     return None
